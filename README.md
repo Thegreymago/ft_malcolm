@@ -6,7 +6,7 @@ Lien utiles :
 
 RFC 826 : https://www.ietf.org/rfc/rfc826.txt
 RFC 7042 : https://datatracker.ietf.org/doc/html/rfc7042
-
+Socket ARP REQUEST : https://stackoverflow.com/questions/16710040/arp-request-and-reply-using-c-socket-programming  
 
  Voici les spécifications demandées :
 
@@ -16,6 +16,7 @@ IP source
 Adresse MAC source
 IP cible
 Adresse MAC cible
+
 Lorsque le programme est lancé, il doit attendre une demande ARP (Address Resolution Protocol) émise en diffusion par la cible, demandant l'IP source. Ensuite, votre programme doit envoyer une seule réponse ARP à la cible, puis se terminer. Si tout se passe bien, la table ARP de la cible devrait contenir l'association IP et MAC que vous avez fournie en tant que source.
 
 Exemple d'utilisation basique :

@@ -23,32 +23,33 @@ RM = rm -f
 
 FLAGS = -Wall -Wextra -Werror
 
-define progress_bar
-printf "[%-${1}s] %3d%%\r" "$2" $3
-endef
-
 all: ${NAME}
 
 $(NAME): ${OBJ}
-	ar rcs ${NAME} ${OBJ}
-	ranlib ${NAME}
+	@echo "Creating libtf ...\t\t\t\c"
+	@ar rcs ${NAME} ${OBJ}
+	@ranlib ${NAME}
+	@echo "DONE"
 
 bonus: ${OBJ} ${OBJBONUS}
-	ar rcs ${NAME} ${OBJ} ${OBJBONUS}
-	ranlib ${NAME}
+	@ar rcs ${NAME} ${OBJ} ${OBJBONUS}
+	@ranlib ${NAME}
 	
 
 .c.o:
-	@echo "Compiling $@ ...\t\t\t\c"
-	${CC} ${FLAGS} -o $@ -c $<
-	@$(call progress_bar,20,"##########",50)
+	@echo "Compiling Binary Files ...\t\t\t\c"
+	@${CC} ${FLAGS} -o $@ -c $<
 	@echo "DONE"
 
 
 clean:
-	${RM} ${OBJ} ${OBJBONUS}
+	@echo "Deleting Binary Files ...\t\t\t\c"
+	@${RM} ${OBJ} ${OBJBONUS}
+	@echo "DONE"
 
 fclean: clean
-	${RM} ${NAME}
+	@echo "Deleting Binary Files & Executable...\t\t\t\c"
+	@${RM} ${NAME}
+	@echo "DONE"
 
 re: fclean all

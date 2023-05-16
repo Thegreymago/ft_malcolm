@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "../includes/ft_malcolm.h"
 
 #define MAX_OBJECTS 10
 

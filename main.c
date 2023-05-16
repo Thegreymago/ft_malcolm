@@ -17,7 +17,7 @@ int main (int argc, char **argv)
 {
     (void)argc;
     (void)argv;
-
+    
     //ft_malcolm
 
     signal(SIGINT, handleCtrlC);
