@@ -1,73 +1,77 @@
-SOURCES = ./main.c \
-			./utils/signal.c \
-			./utils/garbage_collector.c \
+SOURCES_DIR = source/
+SOURCES := $(wildcard $(SOURCES_DIR)*.c)
 
-BONUS_FILES = \
-
+BONUS_FILE = \
 
 HEADER			=	includes/ft_malcolm.h
 HEADER_BONUS	=	includes/ft_malcolm_bonus.h
 
-OBJECTS_DIR			=	./build/
-OBJECTS        = $(SOURCES:.c=.o)
-OBJECTS_BONUS  = $(BONUS_FILES:.c=.o)
+BUILD_DIR		=	build/
+
+OBJECTS			= 	$(patsubst $(SOURCES_DIR)%.c,$(BUILD_DIR)%.o,$(SOURCES))
+
+OBJECTS_BONUS  	= 	$(patsubst $(SOURCES_DIR_BONUS)%.c,$(BUILD_DIR)%.o,$(SOURCES))
 
 
-DEP            = $(OBJECTS:.o=.d)
+DEP				=	$(OBJECTS:%.o=%.d)
 
 NAME			=	ft_malcolm
 
 CC				=	gcc
 RM				=	rm -rf
 
-CFLAGS			=	-Wall -Wextra -Werror -lpacket
+CFLAGS			=	-Wall -Wextra -Werror -g
 
 LIBFT_PATH		=	./libft
 LIBFT			=	$(LIBFT_PATH)/libft.a
 
 
-_GREY	=	\e[30m
-_RED	=	\e[31m
-_GREEN	=	\e[32m
-_YELLOW	=	\e[33m
-_BLUE	=	\e[34m
-_PURPLE	=	\e[35m
-_CYAN	=	\e[36m
-_WHITE	=	\e[37m
+_GREY	=	$'\e[30m
+_RED	=	$'\e[31m
+_GREEN	=	$'\e[32m
+_YELLOW	=	$'\e[33m
+_BLUE	=	$'\e[34m
+_PURPLE	=	$'\e[35m
+_CYAN	=	$'\e[36m
+_WHITE	=	$'\e[37m
 
-$(OBJECTS_DIR)%.o: %.c $(HEADER) $(HEADER_BONUS)
-				@echo "Compiling Binary Files ...\t\t\t\c"
-				@mkdir -p $(OBJECTS_DIR) 
-				@$(CC) $(CFLAGS) -MMD -c $< -o $@ >/dev/null
-				@echo "DONE"
 
-all:			$(NAME)
+$(BUILD_DIR)%.o : $(SOURCES_DIR)%.c
+					@echo "[$(NAME)] : Compiling Binary Files ...\t\t\t\c"
+					@mkdir -p $(BUILD_DIR)
+					@$(CC) $(CFLAGS) -MMD -c $< -o $@
+					@echo "DONE"
 
-$(NAME):		$(LIBFT) $(OBJECTS) $(HEADER)
-				$(CC) $(CFLAGS) $(OBJECTS) $(LIBFT) -o $(NAME)
-
+all:				$(NAME)
 -include $(DEP)
 
-bonus:			$(LIBFT) $(OBJECTS_BONUS) $(HEADER_BONUS) fclean
-				$(CC) $(CFLAGS) $(OBJECTS) $(OBJECTS_BONUS) $(LIBFT) -o $(NAME)
+$(NAME):			$(LIBFT) $(OBJECTS) $(HEADER)
+					@echo "[$(NAME)] : Creating ft_malcolm ...\t\t\t\c"
+					@$(CC) $(CFLAGS) $(OBJECTS) $(LIBFT) -o $(NAME)
+					@echo "DONE"
+
+
+bonus:				$(LIBFT) $(OBJECTS) $(OBJECTS_BONUS) $(HEADER_BONUS)
+					@$(CC) $(CFLAGS) $(OBJECTS) $(OBJECTS_BONUS) $(LIBFT) -o $(NAME)
 
 $(LIBFT):
-				$(MAKE) -C $(LIBFT_PATH)
+					$(MAKE) -C $(LIBFT_PATH)
 
 
 clean:
-				@echo "Deleting Objects Directory $(OBJ_DIR) ... \c"
-				@$(MAKE) -C $(LIBFT_PATH) clean
-				@$(RM) $(OBJECTS_DIR)
-				@echo "DONE\n-----"
+					@echo "[$(NAME)] : Deleting Objects Directory $(OBJECTS_DIR) ... \c"
+					@$(MAKE) -C $(LIBFT_PATH) clean
+					@$(RM) $(BUILD_DIR)/*.o
+					@$(RM) $(BUILD_DIR)/*.d
+					@echo "DONE\n-----"
 
-fclean:			clean
-				@echo "Deleting Binary File $(NAME) ... \c"
-				@$(MAKE) -C $(LIBFT_PATH) fclean
-				@$(RM) $(NAME)
-				@echo "DONE\n-----"
+fclean:				clean
+					@echo "[$(NAME)] : Deleting Binary File ... \c"
+					@$(MAKE) -C $(LIBFT_PATH) fclean
+					@$(RM) $(NAME)
+					@echo "DONE\n-----"
 
-re:				fclean all
+re:					fclean all
 
 
-.PHONY:			all clean fclean re libft bonus
+.PHONY:				all clean fclean re libft bonus

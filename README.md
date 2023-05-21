@@ -2,11 +2,18 @@
 MITM
 
 
+memcpy
+memset
+memcmp
+
 Lien utiles :
 
-RFC 826 : https://www.ietf.org/rfc/rfc826.txt
-RFC 7042 : https://datatracker.ietf.org/doc/html/rfc7042
+RFC 826 : https://www.ietf.org/rfc/rfc826.txt  
+RFC 7042 : https://datatracker.ietf.org/doc/html/rfc7042  
 Socket ARP REQUEST : https://stackoverflow.com/questions/16710040/arp-request-and-reply-using-c-socket-programming  
+https://www.it-connect.fr/comprendre-les-attaques-via-arp-spoofing-mitm-dos/  
+https://www.pdbuchan.com/rawsock/arp.c
+
 
  Voici les spécifications demandées :
 
@@ -48,17 +55,41 @@ N'oubliez pas de documenter votre code et d'ajouter des commentaires pour expliq
 
 Fonctions autorisées :
 
-- sendto: Cette fonction est utilisée pour envoyer des données sur un socket spécifié vers une adresse de destination spécifiée.
-- recvfrom: Cette fonction est utilisée pour recevoir des données à partir d'un socket spécifié et obtenir l'adresse source des données reçues.
-- socket: Cette fonction crée un nouveau socket et retourne son descripteur. Le socket peut être utilisé pour la communication réseau.
-- setsockopt: Cette fonction permet de définir des options pour un socket, comme la réutilisation de l'adresse ou l'activation du mode non-blocant.
-- getuid: Cette fonction renvoie l'ID utilisateur effectif du processus en cours.
-- close: Cette fonction ferme le descripteur de fichier spécifié, y compris un socket.
-- signal: Cette fonction permet de gérer les signaux logiciels, tels que SIGINT pour capturer le signal de terminaison Ctrl+C.
-- inet_addr: Cette fonction convertit une adresse IPv4 au format texte en une représentation numérique sous forme binaire utilisée par le réseau.
-- gethostbyname: Cette fonction renvoie une structure d'informations sur un hôte (nom d'hôte) en utilisant son nom.
-- getaddrinfo, freeaddrinfo: Ces fonctions permettent de résoudre un nom d'hôte en une liste d'adresses IP utilisables. freeaddrinfo est utilisé pour libérer la mémoire allouée par getaddrinfo.
-- getifaddrs, freeifaddrs: Ces fonctions permettent de récupérer la liste des interfaces réseau disponibles sur le système. freeifaddrs est utilisé pour libérer la mémoire allouée par getifaddrs.
-- htons, ntohs: Ces fonctions permettent de convertir les valeurs d'entiers courts de l'ordre d'octets de l'hôte à l'ordre d'octets du réseau (et vice versa) pour la gestion des numéros de port.
-- strerror, gai_strerror: Ces fonctions renvoient une chaîne de caractères décrivant le message d'erreur associé à un code d'erreur spécifié. strerror est utilisé pour les erreurs système générales, tandis que gai_strerror est utilisé pour les erreurs liées à getaddrinfo.
-printf et sa famille: Ce sont des fonctions de sortie formatée permettant d'afficher des données formatées sur la sortie standard. D'autres variantes, telles que fprintf et sprintf, permettent de formater les données dans une chaîne de caractères ou un fichier spécifié.
+- sendto: 
+Cette fonction est utilisée pour envoyer des données sur un socket spécifié vers une adresse de destination spécifiée.
+- recvfrom: 
+Cette fonction est utilisée pour recevoir des données à partir d'un socket spécifié et obtenir l'adresse source des données reçues.
+- socket: 
+Cette fonction crée un nouveau socket et retourne son descripteur. Le socket peut être utilisé pour la communication réseau.
+- setsockopt: 
+Cette fonction permet de définir des options pour un socket, comme la réutilisation de l'adresse ou l'activation du mode non-blocant.
+- getuid: 
+Cette fonction renvoie l'ID utilisateur effectif du processus en cours.
+- close: 
+Cette fonction ferme le descripteur de fichier spécifié, y compris un socket.
+- signal: 
+Cette fonction permet de gérer les signaux logiciels, tels que SIGINT pour capturer le signal de terminaison Ctrl+C.
+- inet_addr: 
+Cette fonction convertit une adresse IPv4 au format texte en une représentation numérique sous forme binaire utilisée par le réseau.
+- gethostbyname: 
+Cette fonction renvoie une structure d'informations sur un hôte (nom d'hôte) en utilisant son nom.
+- getaddrinfo, freeaddrinfo: 
+Ces fonctions permettent de résoudre un nom d'hôte en une liste d'adresses IP utilisables. freeaddrinfo est utilisé pour libérer la mémoire allouée par getaddrinfo.
+- getifaddrs, freeifaddrs: 
+Ces fonctions permettent de récupérer la liste des interfaces réseau disponibles sur le système. freeifaddrs est utilisé pour libérer la mémoire allouée par getifaddrs.
+- htons, ntohs: 
+Ces fonctions permettent de convertir les valeurs d'entiers courts de l'ordre d'octets de l'hôte à l'ordre d'octets du réseau (et vice versa) pour la gestion des numéros de port.
+- strerror, gai_strerror: 
+Ces fonctions renvoient une chaîne de caractères décrivant le message d'erreur associé à un code d'erreur spécifié. strerror est utilisé pour les erreurs système générales, tandis que gai_strerror est utilisé pour les erreurs liées à getaddrinfo.
+- printf et sa famille: 
+Ce sont des fonctions de sortie formatée permettant d'afficher des données formatées sur la sortie standard. D'autres variantes, telles que fprintf et sprintf, permettent de formater les données dans une chaîne de caractères ou un fichier spécifié.
+
+
+Verification :
+- Check les leaks memoire
+- Check les leaks FD
+
+
+Interface reseaux aptes :
+- "eth" ou "enp" (pour le filaire)
+- "wlan" ou "wlp" (pour le WiFi)

@@ -26,7 +26,7 @@ FLAGS = -Wall -Wextra -Werror
 all: ${NAME}
 
 $(NAME): ${OBJ}
-	@echo "Creating libtf ...\t\t\t\c"
+	@echo "[$(NAME)] : Creating libtf ...\t\t\t\c"
 	@ar rcs ${NAME} ${OBJ}
 	@ranlib ${NAME}
 	@echo "DONE"
@@ -37,18 +37,18 @@ bonus: ${OBJ} ${OBJBONUS}
 	
 
 .c.o:
-	@echo "Compiling Binary Files ...\t\t\t\c"
+	@echo "[$(NAME)] : Compiling Binary Files ...\t\t\t\c"
 	@${CC} ${FLAGS} -o $@ -c $<
 	@echo "DONE"
 
 
 clean:
-	@echo "Deleting Binary Files ...\t\t\t\c"
+	@echo "[$(NAME)] : Deleting Binary Files ...\t\t\t\c"
 	@${RM} ${OBJ} ${OBJBONUS}
 	@echo "DONE"
 
 fclean: clean
-	@echo "Deleting Binary Files & Executable...\t\t\t\c"
+	@echo "[$(NAME)] : Deleting Binary Files & Executable...\t\t\t\c"
 	@${RM} ${NAME}
 	@echo "DONE"
 

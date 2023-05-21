@@ -1,4 +1,3 @@
-
 /*.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo. */
 /*                                                                                      */
 /*   Nom du fichier : main.c                                                            */
@@ -10,15 +9,17 @@
 /*  Updated: 14/05/2023                                                                 */
 /*                                                                                      */
 /*.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo.oOo. */
-
-#include "./includes/ft_malcolm.h"
+#include "../includes/ft_malcolm.h"
 
 int main (int argc, char **argv)
 {
-    (void)argc;
-    (void)argv;
+    if (getuid() != 0) {
+        fprintf(stderr, "%s: This program requires superuser privileges.\n", PROGRAM);
+        return 1;
+    }
     
-    //ft_malcolm
+    if (ft_malcolm(argc, argv) == -1)
+        return 1;
 
     signal(SIGINT, handleCtrlC);
     return 0;
