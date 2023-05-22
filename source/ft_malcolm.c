@@ -2,8 +2,6 @@
 
 int ft_malcolm(int argc, char **argv)
 {
-    (void)argc;
-    (void)argv;
     int sockfd;
     unsigned char buffer[BUFFER_SIZE];
     struct ethhdr* ethHeader;
@@ -26,13 +24,15 @@ int ft_malcolm(int argc, char **argv)
         return -1;
     }
 
-    int enable = 1; // interface reseau a mettre
-    if (setsockopt(sockfd, SOL_PACKET, SO_BINDTODEVICE, &enable, sizeof(enable)) == -1)
-    {
-        fprintf(stderr, "%s: setsockopt failed: %s\n", PROGRAM, strerror(errno));
-        return -1;
-    }
+    // int enable = 1; // interface reseau a mettre
+    // if (setsockopt(sockfd, SOL_PACKET, SO_BINDTODEVICE, &enable, sizeof(enable)) == -1)
+    // {
+    //     fprintf(stderr, "%s: setsockopt failed: %s\n", PROGRAM, strerror(errno));
+    //     return -1;
+    // }
 
+
+    memset(&buffer, 0, sizeof buffer);
 
     while (1) 
     {
