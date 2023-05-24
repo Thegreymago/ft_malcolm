@@ -96,6 +96,9 @@ Interface reseaux aptes :
 - "eth" ou "enp" (pour le filaire)
 - "wlan" ou "wlp" (pour le WiFi)
 
+Commande usage :
+- sudo valgrind ./ft_malcolm 192.168.1.255 ff:bb:ff:ff:ee:ff 192.168.1.23 10:dd:b1:ff:ff:ff
+
 struct ifaddrs {
 	struct ifaddrs  *ifa_next;    /* Next item in list */
 	char            *ifa_name;    /* Name of interface */
@@ -113,6 +116,8 @@ struct ifaddrs {
 	void            *ifa_data;    /* Address-specific data */
 };
 
+
+
 struct sockaddr_in {
 	short   sin_family;
 	u_short sin_port;
@@ -125,4 +130,25 @@ struct in_addr {
 };
 
 
-sudo valgrind ./ft_malcolm 192.168.1.255 ff:bb:ff:ff:ee:ff 192.168.1.23 10:dd:b1:ff:ff:ff
+struct ethhdr {
+	unsigned char	h_dest[ETH_ALEN];	/* destination eth addr	*/
+	unsigned char	h_source[ETH_ALEN];	/* source ether addr	*/
+	__be16		h_proto;		/* packet type ID field	*/
+} __attribute__((packed));
+
+struct arphdr
+  {
+    unsigned short int ar_hrd;		/* Format of hardware address.  */
+    unsigned short int ar_pro;		/* Format of protocol address.  */
+    unsigned char ar_hln;		/* Length of hardware address.  */
+    unsigned char ar_pln;		/* Length of protocol address.  */
+    unsigned short int ar_op;		/* ARP opcode (command).  */
+#if 0
+    /* Ethernet looks like this : This bit is variable sized
+       however...  */
+    unsigned char __ar_sha[ETH_ALEN];	/* Sender hardware address.  */
+    unsigned char __ar_sip[4];		/* Sender IP address.  */
+    unsigned char __ar_tha[ETH_ALEN];	/* Target hardware address.  */
+    unsigned char __ar_tip[4];		/* Target IP address.  */
+#endif
+  };

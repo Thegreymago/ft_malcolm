@@ -3,18 +3,18 @@
 int receiveArpRequest(t_main *main)
 {
     (void)main; // DEPEND DE COMMENT JE SET LA CONNEXION A L'INTERFACE
-    unsigned char buffer[BUFFER_SIZE];
+    unsigned char buffer[sizeof (struct ethhdr) + sizeof (struct arphdr)];
     struct ethhdr* ethHeader;
     struct arphdr* arpHeader;
 
-    memset(&buffer, 0, sizeof buffer);
+    ft_memset(&buffer, 0, sizeof buffer);
 
     while (1) 
     {
         ssize_t packetSize = recvfrom(sockfd, buffer, BUFFER_SIZE, 0, NULL, NULL);
         if (packetSize < 0) 
         {
-            fprintf(stderr, "%s: recv failed: %s\n", PROGRAM, strerror(errno));
+            fprintf(stderr, "%s: recvfrom failed: %s\n", PROGRAM, strerror(errno));
             return -1;
         }
 
@@ -75,6 +75,26 @@ int setData(t_main *main, char **argv)
 int sendArpReply(t_main *main)
 {
     (void)main;
+    unsigned char buffer[sizeof (struct ethhdr) + sizeof (struct arphdr)];
+    struct ethhdr* ethHeader;
+    struct arphdr* arpHeader;
+
+    ft_memset(&buffer, 0, sizeof buffer);
+
+    ethHeader = (struct ethhdr *)buffer;
+    ethHeader->h_proto = htons(ETH_P_ARP);
+    ft_memcpy(&main->sourceMac, ethHeader->h_source, sizeof (uint32_t));
+    ft_memcpy(&main->targetMac, ethHeader->h_dest, sizeof (uint32_t));
+
+    arpHeader = (struct arphdr *)(buffer + sizeof(struct ethhdr));
+
+    ssize_t packetSize = sendto(sockfd, buffer, BUFFER_SIZE, 0, NULL, NULL); // mettre le destinataire
+    if (packetSize < 0) 
+    {
+        fprintf(stderr, "%s: sendto failed: %s\n", PROGRAM, strerror(errno));
+        return -1;
+    }
+
     return 0;
 }
 

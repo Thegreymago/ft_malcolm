@@ -29,11 +29,9 @@
 # include "../libft/libft.h"
 
 
-
-
 /* Définition des constantes */
-# define PROGRAM "ft_malcolm"
 
+# define PROGRAM "ft_malcolm"
 # define BUFFER_SIZE 65536
 
 /* Variable Global */

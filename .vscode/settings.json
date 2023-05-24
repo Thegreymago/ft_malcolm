@@ -1,5 +1,6 @@
 {
 	"files.associations": {
-		"ft_malcolm.h": "c"
+		"ft_malcolm.h": "c",
+		"in.h": "c"
 	}
 }
