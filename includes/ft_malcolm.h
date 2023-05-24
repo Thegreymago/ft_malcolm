@@ -36,16 +36,19 @@
 
 # define BUFFER_SIZE 65536
 
+/* Variable Global */
+
+extern int sockfd;
 
 /* Déclaration des structures */
 
 typedef struct s_main
 {
-    char *sourceMac;
-    char *sourceIp;
-    char *targetMac;
-    char *targetIp;
-    struct ifaddrs *ifap;
+    in_addr_t sourceMac;
+    in_addr_t sourceIp;
+    in_addr_t targetMac;
+    in_addr_t targetIp;
+    char interfaceName[IF_NAMESIZE];
 
 }	t_main;
 
@@ -54,7 +57,10 @@ typedef struct s_main
 // Source
 int ft_malcolm(int argc, char **argv);
 int handleErrorInput(int argc, char **argv);
-int getNetworkInterface();
+int getNetworkInterface(t_main *main);
+int setData(t_main *main, char **argv);
+int sendArpReply(t_main *main);
+int receiveArpRequest(t_main *main);
 // Utils
 void handleCtrlC(int data);
 void display_network_interface(struct ifaddrs*);

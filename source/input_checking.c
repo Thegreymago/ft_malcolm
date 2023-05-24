@@ -33,7 +33,7 @@ int checkIp(char *ip)
         tmp = ft_substr(ip, i, y);
         byte = ft_atoi(tmp);
 		if (byte == 0 && y != 1)
-			return -1;
+			return (free(tmp), -1);
         free(tmp);
         if (byte > 255 || byte < 0)
             return -1;

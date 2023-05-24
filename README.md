@@ -1,6 +1,8 @@
 # ft_malcolm
 MITM
 
+TODO :
+
 
 memcpy
 memset
@@ -93,3 +95,34 @@ Verification :
 Interface reseaux aptes :
 - "eth" ou "enp" (pour le filaire)
 - "wlan" ou "wlp" (pour le WiFi)
+
+struct ifaddrs {
+	struct ifaddrs  *ifa_next;    /* Next item in list */
+	char            *ifa_name;    /* Name of interface */
+	unsigned int     ifa_flags;   /* Flags from SIOCGIFFLAGS */
+	struct sockaddr *ifa_addr;    /* Address of interface */
+	struct sockaddr *ifa_netmask; /* Netmask of interface */
+	union {
+		struct sockaddr *ifu_broadaddr;
+						/* Broadcast address of interface */
+		struct sockaddr *ifu_dstaddr;
+						/* Point-to-point destination address */
+	} ifa_ifu;
+#define              ifa_broadaddr ifa_ifu.ifu_broadaddr
+#define              ifa_dstaddr   ifa_ifu.ifu_dstaddr
+	void            *ifa_data;    /* Address-specific data */
+};
+
+struct sockaddr_in {
+	short   sin_family;
+	u_short sin_port;
+	struct  in_addr sin_addr;
+	char    sin_zero[8];
+};
+
+struct in_addr {
+    uint32_t       s_addr;     /* Adresse dans l'ordre d'octets réseau */
+};
+
+
+sudo valgrind ./ft_malcolm 192.168.1.255 ff:bb:ff:ff:ee:ff 192.168.1.23 10:dd:b1:ff:ff:ff

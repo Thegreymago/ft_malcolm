@@ -1,0 +1,4 @@
+*.o
+ft_malcolm
+build/
+libft/libft.a
