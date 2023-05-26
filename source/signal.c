@@ -1,7 +1,7 @@
 #include "../includes/ft_malcolm.h"
 
 void handleCtrlC(int sig) {
-    printf("%s: SIGINT received. Stopping the program.\n", PROGRAM);
+    printf("\n%s: SIGINT received. Stopping the program.\n", PROGRAM);
     if (sig == SIGINT)
     {
         close(sockfd);

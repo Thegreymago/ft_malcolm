@@ -23,20 +23,6 @@
 
 /* Déclaration des structures */
 
-typedef struct s_main
-{
-	int		scr_y;
-	int		scr_x;
-	int		c;
-	int		f;
-	t_data	*game;
-	t_xpm	*img;
-	t_xpm	*texture;
-	t_ray	*ray;
-	t_map	*c_map;
-	t_tex	*tex;
-}	t_main;
-
 /* Prototype des fonctions */
 
 #endif

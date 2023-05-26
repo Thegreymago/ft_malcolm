@@ -7,6 +7,8 @@ int sameNetwork(uint32_t ip1, uint32_t ip2, uint32_t mask) {
 int getNetworkInterface(t_main *main)
 {
     struct ifaddrs *ifap = NULL;
+    in_addr_t sourceIp = inet_addr(main->sourceIp);
+    in_addr_t targetIp = inet_addr(main->targetIp);
 
     if (getifaddrs(&ifap) == -1)
     {
@@ -14,7 +16,6 @@ int getNetworkInterface(t_main *main)
         freeifaddrs(ifap);
         return -1;
     }
-    // display_network_interface(ifap);
 
     for (struct ifaddrs *ifaptmp = ifap; ifaptmp; ifaptmp = ifaptmp->ifa_next)
     {
@@ -33,14 +34,19 @@ int getNetworkInterface(t_main *main)
             // printf(" Cmp1: %d | Cmp2: %d\n", sameNetwork(networkIP, main->sourceIp, networkMask), sameNetwork(networkIP, main->targetIp, networkMask));
             
             
-            if (sameNetwork(networkIP, main->sourceIp, networkMask) && sameNetwork(networkIP, main->targetIp, networkMask))
+            if (sameNetwork(networkIP, sourceIp, networkMask)
+                && sameNetwork(networkIP, targetIp, networkMask)
+                && sameNetwork(sourceIp, targetIp, networkMask))
             {
                 for (struct ifaddrs *ifaptmp2 = ifap; ifaptmp2; ifaptmp2 = ifaptmp2->ifa_next)
                 {
                     if (ifaptmp2 && !ft_memcmp(ifaptmp->ifa_name, ifaptmp2->ifa_name, sizeof ifaptmp->ifa_name) && ifaptmp2->ifa_addr->sa_family == AF_PACKET)
                     {
                         printf("Found available interface: %s\n", ifaptmp->ifa_name);
-                        ft_strlcpy(main->interfaceName, ifaptmp->ifa_name, ft_strlen(ifaptmp->ifa_name));
+
+                        struct sockaddr_ll *sll = (struct sockaddr_ll *)ifaptmp->ifa_addr;
+
+                        main->indexInterface = sll->sll_ifindex;
                         freeifaddrs(ifap);
                         return 1;
                     }
@@ -50,5 +56,5 @@ int getNetworkInterface(t_main *main)
     }
     freeifaddrs(ifap);
     printf("%s: Unknowm host\n", PROGRAM); // ajouter le probleme de l'adresse
-    return 0;
+    return -1;
 }

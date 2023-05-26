@@ -42,11 +42,11 @@ extern int sockfd;
 
 typedef struct s_main
 {
-    in_addr_t sourceMac;
-    in_addr_t sourceIp;
-    in_addr_t targetMac;
-    in_addr_t targetIp;
-    char interfaceName[IF_NAMESIZE];
+    char sourceMac[18];
+    char sourceIp[16];
+    char targetMac[18];
+    char targetIp[16];
+    int indexInterface;
 
 }	t_main;
 
