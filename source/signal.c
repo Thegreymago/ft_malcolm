@@ -5,6 +5,7 @@ void handleCtrlC(int sig) {
     if (sig == SIGINT)
     {
         close(sockfd);
+        sockfd = -1;
     }
     return;
 }

@@ -20,6 +20,7 @@ int setData(t_main *main, char **argv)
 int ft_malcolm(int argc, char **argv)
 {
     t_main  main;
+    int exit = 0;
 
     signal(SIGINT, handleCtrlC);
 
@@ -32,12 +33,15 @@ int ft_malcolm(int argc, char **argv)
     if (getNetworkInterface(&main) == -1)
         return (close(sockfd), -1);
 
-    if (receiveArpRequest(&main) == -1)
+    exit = receiveArpRequest(&main);
+    if (exit == -1)
         return (close(sockfd), -1);
+    else if (exit == 1)
+        return(-1);
 
     if (sendArpReply(&main) == -1)
         return (close(sockfd), -1);
-    printf("    [Exiting program] \n");
+    printf("[Exiting program] \n");
     close(sockfd);
     return 0;
 }

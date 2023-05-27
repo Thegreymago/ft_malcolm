@@ -12,7 +12,6 @@
 #include "../includes/ft_malcolm.h"
 
 int sockfd = 0;
-int stop = 0;
 
 int main (int argc, char **argv)
 {
