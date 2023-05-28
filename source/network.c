@@ -1,5 +1,50 @@
 #include "../includes/ft_malcolm.h"
 
+// int getAllIpNetwork() 
+// {
+//     struct addrinfo hints, *res, *p;
+//     int status;
+//     char ipstr[INET6_ADDRSTRLEN];
+
+//     // Remplir la structure hints avec les informations souhaitées
+//     memset(&hints, 0, sizeof hints);
+//     hints.ai_family = AF_UNSPEC;  // Permet à getaddrinfo() de supporter IPv4 et IPv6
+//     hints.ai_socktype = SOCK_STREAM;  // Utiliser SOCK_STREAM pour TCP ou SOCK_DGRAM pour UDP
+
+//     // Résolution de l'interface réseau
+//     if ((status = getaddrinfo("eth0", NULL, &hints, &res)) != 0) {
+//         fprintf(stderr, "Erreur lors de la résolution de l'interface : %s\n", gai_strerror(status));
+//         return 1;
+//     }
+
+//     printf("Adresses IP pour l'interface eth0 :\n\n");
+
+//     // Parcourir les résultats et afficher les adresses IP
+//     for (p = res; p != NULL; p = p->ai_next) {
+//         void *addr;
+//         char *ipver;
+
+//         // Obtenir l'adresse IPv4 ou IPv6
+//         if (p->ai_family == AF_INET) {  // IPv4
+//             struct sockaddr_in *ipv4 = (struct sockaddr_in *)p->ai_addr;
+//             addr = &(ipv4->sin_addr);
+//             ipver = "IPv4";
+//         } else {  // IPv6
+//             struct sockaddr_in6 *ipv6 = (struct sockaddr_in6 *)p->ai_addr;
+//             addr = &(ipv6->sin6_addr);
+//             ipver = "IPv6";
+//         }
+
+//         // Convertir l'adresse IP en une chaîne de caractères lisible
+//         inet_ntop(p->ai_family, addr, ipstr, sizeof ipstr);
+//         printf("%s: %s\n", ipver, ipstr);
+//     }
+
+//     freeaddrinfo(res);  // Libérer la mémoire allouée par getaddrinfo
+
+//     return 0;
+// }
+
 int sameNetwork(uint32_t ip1, uint32_t ip2, uint32_t mask) {
     return (ip1 & mask) == (ip2 & mask);
 }
