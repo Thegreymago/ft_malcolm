@@ -7,7 +7,7 @@
 //     char ipstr[INET6_ADDRSTRLEN];
 
 //     // Remplir la structure hints avec les informations souhaitées
-//     memset(&hints, 0, sizeof hints);
+//     ft_memset(&hints, 0, sizeof hints);
 //     hints.ai_family = AF_UNSPEC;  // Permet à getaddrinfo() de supporter IPv4 et IPv6
 //     hints.ai_socktype = SOCK_STREAM;  // Utiliser SOCK_STREAM pour TCP ou SOCK_DGRAM pour UDP
 
