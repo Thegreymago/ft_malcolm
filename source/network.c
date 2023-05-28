@@ -19,6 +19,7 @@ int getNetworkInterface(t_main *main)
         return -1;
     }
 
+    /* BOUCLE IMBRIQUE POUR PARCOURIR LES INTERFACE IP ET ARP */
     for (struct ifaddrs *ifaptmp = ifap; ifaptmp; ifaptmp = ifaptmp->ifa_next)
     {
         if (ifaptmp && ifaptmp->ifa_addr && ifaptmp->ifa_netmask && ifaptmp->ifa_addr->sa_family == AF_INET)
