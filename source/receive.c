@@ -42,13 +42,13 @@ int receiveArpRequest(t_main *main)
 
                 unsigned char* sourceMAC = (unsigned char*)(buffer + sizeof(struct ethhdr) + sizeof(struct arphdr));
                 unsigned char* senderIP = sourceMAC + arpHeader->ar_hln;
-                unsigned char* destMAC = senderIP + arpHeader->ar_pln;
-                unsigned char* targetIP = destMAC + arpHeader->ar_hln;
+                // unsigned char* destMAC = senderIP + arpHeader->ar_pln;
+                // unsigned char* targetIP = destMAC + arpHeader->ar_hln;
 
                 printf("- Adresse MAC source: %02x:%02x:%02x:%02x:%02x:%02x\n", sourceMAC[0], sourceMAC[1], sourceMAC[2], sourceMAC[3], sourceMAC[4], sourceMAC[5]);
                 printf("- Adresse IP source: %d.%d.%d.%d\n", senderIP[0], senderIP[1], senderIP[2], senderIP[3]);
-                printf("- Adresse MAC target: %02x:%02x:%02x:%02x:%02x:%02x\n", destMAC[0], destMAC[1], destMAC[2], destMAC[3], destMAC[4], destMAC[5]);
-                printf("- Adresse IP target: %d.%d.%d.%d\n\n", targetIP[0], targetIP[1], targetIP[2], targetIP[3]);
+                // printf("- Adresse MAC target: %02x:%02x:%02x:%02x:%02x:%02x\n", destMAC[0], destMAC[1], destMAC[2], destMAC[3], destMAC[4], destMAC[5]);
+                // printf("- Adresse IP target: %d.%d.%d.%d\n\n", targetIP[0], targetIP[1], targetIP[2], targetIP[3]);
 
 				break ;
             }

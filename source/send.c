@@ -22,10 +22,17 @@ void toMAC(const char* adresseMAC, unsigned char* adresse)
             else if (adresseMAC[i] >= 'A' && adresseMAC[i] <= 'F') {
                 valeur = 10 + (adresseMAC[i] - 'A');
             }
-
+            /* La condition if vérifie si nous sommes dans la position de poids fort (position % 2 == 0).
+            Si c'est le cas, cela signifie que nous devons décaler la valeur de 4 bits vers la gauche (<< 4)
+            et la stocker dans l'octet correspondant de adresse. Par exemple, si la valeur est 12 (0xC),
+            nous la décalons vers la gauche pour obtenir 0xC0. */
             if (position % 2 == 0) {
                 adresse[octet] = valeur << 4;
             }
+            /* La condition else est exécutée lorsque nous sommes dans la position de poids faible.
+            Nous effectuons un OU logique (|) entre la valeur binaire actuelle de l'octet et la valeur obtenue.
+            Cela permet de combiner les deux parties pour obtenir la valeur complète de l'octet.
+            Par exemple, si la valeur est 3 (0x3), nous la combinons avec 0xC0 pour obtenir 0xC3 */
             else {
                 adresse[octet] |= valeur;
             }
