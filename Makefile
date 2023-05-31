@@ -1,5 +1,11 @@
 SOURCES_DIR = source/
-SOURCES := $(wildcard $(SOURCES_DIR)*.c)
+SOURCES = $(SOURCES_DIR)ft_malcolm.c \
+			$(SOURCES_DIR)input.c \
+			$(SOURCES_DIR)main.c \
+			$(SOURCES_DIR)network.c \
+			$(SOURCES_DIR)receive.c \
+			$(SOURCES_DIR)send.c \
+			$(SOURCES_DIR)signal.c \
 
 BONUS_FILE = \
 

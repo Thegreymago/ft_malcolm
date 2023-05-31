@@ -3,10 +3,8 @@ Man in the Middle
 
 TODO :
 
-- Soit struct arphdr, soit inet_addr
-
-
 OK :
+- Soit struct arphdr, soit inet_addr
 - 	Gestion erreur Unknown host
 -	Sortir proprement avec signal ctrl C
 -	Erreur sendto() -> OK index network interface ARPPACKET et pas interface IP
@@ -39,7 +37,7 @@ Exemple d'utilisation basique :
 
 ./ft_malcolm 10.12.255.255 ff:bb:ff:ff:ee:ff 10.12.10.22 10:dd:b1:**:**:**
 
-sudo valgrind --leak-check=full --show-leak-kinds=all --track-fd=yes ./ft_malcolm 192.168.1.25 b4:18:d1:ee:8e:7d 192.168.1.48 08:00:27:04:f1:b4
+sudo valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes ./ft_malcolm 192.168.1.25 b4:18:d1:ee:8e:7d 192.168.1.48 08:00:27:04:f1:b4
 
 Le programme envoie une réponse ARP à la cible (10.12.10.22) contenant les informations sur la source (10.12.255.255 et son adresse MAC associée, falsifiée) dès qu'il détecte qu'une demande ARP a été envoyée sur le réseau.
 
