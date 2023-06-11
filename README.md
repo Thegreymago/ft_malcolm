@@ -39,6 +39,9 @@ Exemple d'utilisation basique :
 
 sudo valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes ./ft_malcolm 192.168.1.25 b4:18:d1:ee:8e:7d 192.168.1.48 08:00:27:04:f1:b4
 
+UTILISATION VM : Lancer les trois VMs, sudo dhclient enp0s8 pour tt le monde, ping entre les trois, et spoof
+
+
 Le programme envoie une réponse ARP à la cible (10.12.10.22) contenant les informations sur la source (10.12.255.255 et son adresse MAC associée, falsifiée) dès qu'il détecte qu'une demande ARP a été envoyée sur le réseau.
 
 Le sujet mentionne également quelques exemples de gestion des erreurs possibles, comme des adresses IP ou MAC invalides.

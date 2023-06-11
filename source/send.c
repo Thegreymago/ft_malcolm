@@ -73,7 +73,7 @@ int sendArpReply(t_main *main)
 	unsigned char sourceMac[6];
 	unsigned char targetMac[6];
 
-    /* CONVERT ADDRESS TEXT TO UNSIGNED CHAR[6] bytes */
+    /* CONVERT ADDRESS TEXT TO UNSIGNED CHAR[6/4] bytes */
 	toMAC(main->sourceMac, sourceMac);
     toIP(main->sourceIp, sourceIp);
 	toMAC(main->targetMac, targetMac);
